@@ -1,0 +1,5 @@
+/.pytest_cache
+/.vscode
+/poetry.lock
+/test.bin
+__pycache__
