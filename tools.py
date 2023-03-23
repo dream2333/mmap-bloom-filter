@@ -2,7 +2,8 @@ import os
 import sys
 import time
 from platform import python_implementation
-# 计算函数运行时间的装饰器
+
+# 计算函数运行时间的
 def caculate_time(func):
     def wrapper(*args, **kwargs):
         start_time = time.time()
@@ -11,6 +12,7 @@ def caculate_time(func):
         print("函数运行时间为：%s" % (end_time - start_time))
     return wrapper
 
+# 检测python解释器
 def detect_python_interpreter():
     try:
         from platform import python_implementation

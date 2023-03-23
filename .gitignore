@@ -3,3 +3,10 @@
 /poetry.lock
 /test.bin
 __pycache__
+.idea/misc.xml
+.idea/modules.xml
+.idea/PersistFilter.iml
+.gitignore
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+testtest

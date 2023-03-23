@@ -2,7 +2,7 @@
 # import zerorpc
 from tools import caculate_time
 import asyncio
-@caculate_time
+
 def test_run_http_client():
 
     async def fetch(session):
