@@ -5,6 +5,7 @@ from core.filebitarray import FileBitArray
 from tools import detect_python_interpreter
 
 if detect_python_interpreter() == "PyPy":
+    
     from core.murmurhash import hash128 as hash128_x64
 else:
     from mmr3 import hash128_x64

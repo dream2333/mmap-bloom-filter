@@ -13,9 +13,9 @@ class FileBitArray:
         :param bit_array_size: 位数组大小
         """
         size = math.ceil(bit_array_size / 8)
-        # 创建一个新文件
+        # 创建指定大小空文件
         try:
-            open(filename, "xb").close()
+            self.__createfile(filename,size)
         except:
             ...
         self.__f = open(filename, "r+b",buffering=0)
@@ -24,6 +24,12 @@ class FileBitArray:
         if sys.version_info >= (3, 8) and sys.platform != "win32":
             self.__m.madvise(mmap.MADV_RANDOM)
 
+
+    def __createfile(self,filename,size):
+        with open(filename,'xb') as f:
+            f.seek(size-1)
+            f.write(b'\x00')
+            
     # 对文件对象内存映射进行读bit操作
     def __getitem__(self, index):
         byte_offset, bit_offset = divmod(index, 8)
