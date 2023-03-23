@@ -1,15 +1,20 @@
-import time
-from filebitarray import FileBitArray
-from virtualmem import caculate_time
+from core.filebitarray import FileBitArray
+from tools import caculate_time
 
 
-# 测试filebitarray的写入速度
 @caculate_time
-def test_write_sync():
-    fba = FileBitArray("test", 100000000, sync_flush=True)
-    for i in range(100000000):
+def test_write_bench():
+    fba = FileBitArray("D:/testfilter2.bin", 287551751322)
+    for i in range(10000000):
         fba[i] = 1
-        # if i % 1000000 == 0:
-        #     fba.flush()
     fba.close()
-    return 1
+    assert 1
+
+# 测试读取所有的数组元素
+def test_read_array_elements():
+    fba = FileBitArray("D:/testfilter2.bin", 100000000)
+    for i in range(100000000):
+        bit = fba[i]
+    fba.close()
+    print(bit)
+    assert 1
