@@ -19,23 +19,22 @@ def hash32(key: str, seed=0x0):
     c1 = 0xcc9e2d51
     c2 = 0x1b873593
 
-    # body
+
     for block_start in range(0, nblocks * 4, 4):
-        # ??? big endian?
+
         k1 = key[block_start + 3] << 24 | \
              key[block_start + 2] << 16 | \
              key[block_start + 1] << 8 | \
              key[block_start + 0]
 
         k1 = (c1 * k1) & 0xFFFFFFFF
-        k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  # inlined ROTL32
+        k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  
         k1 = (c2 * k1) & 0xFFFFFFFF
 
         h1 ^= k1
-        h1 = (h1 << 13 | h1 >> 19) & 0xFFFFFFFF  # inlined ROTL32
+        h1 = (h1 << 13 | h1 >> 19) & 0xFFFFFFFF  
         h1 = (h1 * 5 + 0xe6546b64) & 0xFFFFFFFF
 
-    # tail
     tail_index = nblocks * 4
     k1 = 0
     tail_size = length & 3
@@ -49,11 +48,11 @@ def hash32(key: str, seed=0x0):
 
     if tail_size > 0:
         k1 = (k1 * c1) & 0xFFFFFFFF
-        k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  # inlined ROTL32
+        k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  
         k1 = (k1 * c2) & 0xFFFFFFFF
         h1 ^= k1
 
-    # finalization
+    
     unsigned_val = fmix(h1 ^ length)
     if unsigned_val & 0x80000000 == 0:
         return unsigned_val
@@ -102,9 +101,9 @@ def hash128(key, seed=0x0, x64arch=True):
         c1 = 0x87c37b91114253d5
         c2 = 0x4cf5ad432745937f
 
-        # body
+
         for block_start in range(0, nblocks * 8, 8):
-            # ??? big endian?
+
             k1 = key[2 * block_start + 7] << 56 | \
                  key[2 * block_start + 6] << 48 | \
                  key[2 * block_start + 5] << 40 | \
@@ -124,24 +123,24 @@ def hash128(key, seed=0x0, x64arch=True):
                  key[2 * block_start + 8]
 
             k1 = (c1 * k1) & 0xFFFFFFFFFFFFFFFF
-            k1 = (k1 << 31 | k1 >> 33) & 0xFFFFFFFFFFFFFFFF  # inlined ROTL64
+            k1 = (k1 << 31 | k1 >> 33) & 0xFFFFFFFFFFFFFFFF  
             k1 = (c2 * k1) & 0xFFFFFFFFFFFFFFFF
             h1 ^= k1
 
-            h1 = (h1 << 27 | h1 >> 37) & 0xFFFFFFFFFFFFFFFF  # inlined ROTL64
+            h1 = (h1 << 27 | h1 >> 37) & 0xFFFFFFFFFFFFFFFF  
             h1 = (h1 + h2) & 0xFFFFFFFFFFFFFFFF
             h1 = (h1 * 5 + 0x52dce729) & 0xFFFFFFFFFFFFFFFF
 
             k2 = (c2 * k2) & 0xFFFFFFFFFFFFFFFF
-            k2 = (k2 << 33 | k2 >> 31) & 0xFFFFFFFFFFFFFFFF  # inlined ROTL64
+            k2 = (k2 << 33 | k2 >> 31) & 0xFFFFFFFFFFFFFFFF  
             k2 = (c1 * k2) & 0xFFFFFFFFFFFFFFFF
             h2 ^= k2
 
-            h2 = (h2 << 31 | h2 >> 33) & 0xFFFFFFFFFFFFFFFF  # inlined ROTL64
+            h2 = (h2 << 31 | h2 >> 33) & 0xFFFFFFFFFFFFFFFF  
             h2 = (h1 + h2) & 0xFFFFFFFFFFFFFFFF
             h2 = (h2 * 5 + 0x38495ab5) & 0xFFFFFFFFFFFFFFFF
 
-        # tail
+
         tail_index = nblocks * 16
         k1 = 0
         k2 = 0
@@ -164,7 +163,7 @@ def hash128(key, seed=0x0, x64arch=True):
 
         if tail_size > 8:
             k2 = (k2 * c2) & 0xFFFFFFFFFFFFFFFF
-            k2 = (k2 << 33 | k2 >> 31) & 0xFFFFFFFFFFFFFFFF  # inlined ROTL64
+            k2 = (k2 << 33 | k2 >> 31) & 0xFFFFFFFFFFFFFFFF 
             k2 = (k2 * c1) & 0xFFFFFFFFFFFFFFFF
             h2 ^= k2
 
@@ -187,11 +186,11 @@ def hash128(key, seed=0x0, x64arch=True):
 
         if tail_size > 0:
             k1 = (k1 * c1) & 0xFFFFFFFFFFFFFFFF
-            k1 = (k1 << 31 | k1 >> 33) & 0xFFFFFFFFFFFFFFFF  # inlined ROTL64
+            k1 = (k1 << 31 | k1 >> 33) & 0xFFFFFFFFFFFFFFFF  
             k1 = (k1 * c2) & 0xFFFFFFFFFFFFFFFF
             h1 ^= k1
 
-        # finalization
+
         h1 ^= length
         h2 ^= length
 
@@ -228,7 +227,7 @@ def hash128(key, seed=0x0, x64arch=True):
         c3 = 0x38b34ae5
         c4 = 0xa1e38b93
 
-        # body
+
         for block_start in range(0, nblocks * 16, 16):
             k1 = key[block_start + 3] << 24 | \
                  key[block_start + 2] << 16 | \
@@ -251,42 +250,42 @@ def hash128(key, seed=0x0, x64arch=True):
                  key[block_start + 12]
 
             k1 = (c1 * k1) & 0xFFFFFFFF
-            k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  # inlined ROTL32
+            k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  
             k1 = (c2 * k1) & 0xFFFFFFFF
             h1 ^= k1
 
-            h1 = (h1 << 19 | h1 >> 13) & 0xFFFFFFFF  # inlined ROTL32
+            h1 = (h1 << 19 | h1 >> 13) & 0xFFFFFFFF  
             h1 = (h1 + h2) & 0xFFFFFFFF
             h1 = (h1 * 5 + 0x561ccd1b) & 0xFFFFFFFF
 
             k2 = (c2 * k2) & 0xFFFFFFFF
-            k2 = (k2 << 16 | k2 >> 16) & 0xFFFFFFFF  # inlined ROTL32
+            k2 = (k2 << 16 | k2 >> 16) & 0xFFFFFFFF  
             k2 = (c3 * k2) & 0xFFFFFFFF
             h2 ^= k2
 
-            h2 = (h2 << 17 | h2 >> 15) & 0xFFFFFFFF  # inlined ROTL32
+            h2 = (h2 << 17 | h2 >> 15) & 0xFFFFFFFF  
             h2 = (h2 + h3) & 0xFFFFFFFF
             h2 = (h2 * 5 + 0x0bcaa747) & 0xFFFFFFFF
 
             k3 = (c3 * k3) & 0xFFFFFFFF
-            k3 = (k3 << 17 | k3 >> 15) & 0xFFFFFFFF  # inlined ROTL32
+            k3 = (k3 << 17 | k3 >> 15) & 0xFFFFFFFF  
             k3 = (c4 * k3) & 0xFFFFFFFF
             h3 ^= k3
 
-            h3 = (h3 << 15 | h3 >> 17) & 0xFFFFFFFF  # inlined ROTL32
+            h3 = (h3 << 15 | h3 >> 17) & 0xFFFFFFFF  
             h3 = (h3 + h4) & 0xFFFFFFFF
             h3 = (h3 * 5 + 0x96cd1c35) & 0xFFFFFFFF
 
             k4 = (c4 * k4) & 0xFFFFFFFF
-            k4 = (k4 << 18 | k4 >> 14) & 0xFFFFFFFF  # inlined ROTL32
+            k4 = (k4 << 18 | k4 >> 14) & 0xFFFFFFFF 
             k4 = (c1 * k4) & 0xFFFFFFFF
             h4 ^= k4
 
-            h4 = (h4 << 13 | h4 >> 19) & 0xFFFFFFFF  # inlined ROTL32
+            h4 = (h4 << 13 | h4 >> 19) & 0xFFFFFFFF 
             h4 = (h1 + h4) & 0xFFFFFFFF
             h4 = (h4 * 5 + 0x32ac3b17) & 0xFFFFFFFF
 
-        # tail
+
         tail_index = nblocks * 16
         k1 = 0
         k2 = 0
@@ -303,7 +302,7 @@ def hash128(key, seed=0x0, x64arch=True):
 
         if tail_size > 12:
             k4 = (k4 * c4) & 0xFFFFFFFF
-            k4 = (k4 << 18 | k4 >> 14) & 0xFFFFFFFF  # inlined ROTL32
+            k4 = (k4 << 18 | k4 >> 14) & 0xFFFFFFFF  
             k4 = (k4 * c1) & 0xFFFFFFFF
             h4 ^= k4
 
@@ -318,7 +317,7 @@ def hash128(key, seed=0x0, x64arch=True):
 
         if tail_size > 8:
             k3 = (k3 * c3) & 0xFFFFFFFF
-            k3 = (k3 << 17 | k3 >> 15) & 0xFFFFFFFF  # inlined ROTL32
+            k3 = (k3 << 17 | k3 >> 15) & 0xFFFFFFFF  
             k3 = (k3 * c4) & 0xFFFFFFFF
             h3 ^= k3
 
@@ -333,7 +332,7 @@ def hash128(key, seed=0x0, x64arch=True):
 
         if tail_size > 4:
             k2 = (k2 * c2) & 0xFFFFFFFF
-            k2 = (k2 << 16 | k2 >> 16) & 0xFFFFFFFF  # inlined ROTL32
+            k2 = (k2 << 16 | k2 >> 16) & 0xFFFFFFFF  
             k2 = (k2 * c3) & 0xFFFFFFFF
             h2 ^= k2
 
@@ -348,11 +347,11 @@ def hash128(key, seed=0x0, x64arch=True):
 
         if tail_size > 0:
             k1 = (k1 * c1) & 0xFFFFFFFF
-            k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  # inlined ROTL32
+            k1 = (k1 << 15 | k1 >> 17) & 0xFFFFFFFF  
             k1 = (k1 * c2) & 0xFFFFFFFF
             h1 ^= k1
 
-        # finalization
+        
         h1 ^= length
         h2 ^= length
         h3 ^= length
