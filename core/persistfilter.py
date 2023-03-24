@@ -50,7 +50,9 @@ class PersistFilter(object):
             # 先读后写，将对应的bit位置为1
             if self.bit_array[index] == 0:
                 self.bit_array[index] = 1
-
+            # # 只写入
+            # self.bit_array[index] = 1
+            
     def __contains__(self, value: str):
         """
         判断元素是否存在于过滤器中
@@ -71,11 +73,15 @@ class PersistFilter(object):
         :param hash_count: 哈希函数个数
         :return: 哈希值列表
         """
-        for seed in primer_numbers:
-            # 计算哈希值
-            hash128 = hash128_x64(value, seed)
-            # 取模，映射到虚拟内存中的地址
-            yield hash128 % self.bit_array_size
+        # for seed in primer_numbers:
+        #     # 计算哈希值
+        #     hash128 = hash128_x64(value, seed)
+        #     # 取模，映射到虚拟内存中的地址
+        #     yield hash128 % self.bit_array_size
+        # 使用生成式提高hdd性能
+        offset_list =  [(hash128_x64(value, seed) % self.bit_array_size )for seed in primer_numbers]
+        offset_list.sort()
+        return offset_list
 
     def close(self):
         """
