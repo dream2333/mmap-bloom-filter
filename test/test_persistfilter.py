@@ -3,22 +3,23 @@ from threading import Thread
 import time
 from core.persistfilter import PersistFilter
 from tools import caculate_time
-from pybloomfilter import BloomFilter
-# 过滤器容量10亿 中添加100万元素 单次19hash 最差情况写入760k 单进程
-# 随机写 53秒 二次运行 47秒
-# 随机读+写 67秒 二次运行 34秒
-# 顺序读+写 72秒 二次运行 35秒
 
-# 向过滤器中添加100万元素 6进程 
+# 本地过滤器容量10亿 中添加100万元素 单次19hash 最差情况写入760k 
+
+# 单进程
+# 随机 读+写 67秒 二次运行 34秒
+# 顺序 读+写 72秒 二次运行 35秒
+
+# 6进程 
 # 随机 读+写 21秒 二次运行 6秒
 # 顺序 读+写 23秒 二次运行 6.85秒
 
-# 向过滤器中添加100万元素 32进程 
+# 32进程 
 # 随机 读+写 20-26秒 二次运行 6.24秒
 # 顺序 读+写 16-20秒 二次运行 6.05秒
 
+# 服务器四进程 1.1w/s
 
-# 过滤器容量10亿 中添加100万元素 单次19hash 单进程
 
 # 测试在百亿容量中连续添加一万个元素所需的时间
 def test_add():

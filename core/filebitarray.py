@@ -20,7 +20,7 @@ class FileBitArray:
             ...
         self.__f = open(filename, "r+b",buffering=0)
         self.__m = mmap.mmap(self.__f.fileno(), size, access=mmap.ACCESS_DEFAULT)
-        # 如果系统位linux，则通知内核随机读写优化
+        # 如果系统为linux，则通知内核随机读写优化
         if sys.version_info >= (3, 8) and sys.platform != "win32":
             self.__m.madvise(mmap.MADV_RANDOM)
 

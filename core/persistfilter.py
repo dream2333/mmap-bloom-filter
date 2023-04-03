@@ -78,7 +78,7 @@ class PersistFilter(object):
             hash128 = hash128_x64(value, seed)
             # 取模，映射到虚拟内存中的地址
             yield hash128 % self.bit_array_size
-        # 使用生成式提高hdd性能
+        # 顺序读写提高hdd性能
         # offset_list =  [(hash128_x64(value, seed) % self.bit_array_size )for seed in primer_numbers]
         # offset_list.sort()
         # return offset_list
